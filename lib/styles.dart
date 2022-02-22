@@ -14,17 +14,24 @@ const double defaultBorderRadius = 8.0;
 const double countBarBorderRadius = 12.0;
 
 const EdgeInsetsGeometry defaultPadding = EdgeInsets.all(12.0);
-const EdgeInsetsGeometry betweenTitlesPadding = EdgeInsets.only(bottom: 24.0);
+const EdgeInsetsGeometry titlePadding =
+    EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0);
 const EdgeInsetsGeometry checkboxItemPadding = EdgeInsets.symmetric(
   vertical: 5.0,
 );
 
-const EdgeInsetsGeometry cardVerticalPadding = EdgeInsets.only(
+const EdgeInsetsGeometry cardPadding = EdgeInsets.all(16.0);
+const EdgeInsetsGeometry cardVerticalMargin = EdgeInsets.only(
   left: 12.0,
   right: 12.0,
-  bottom: 8.0,
+  bottom: 16.0,
 );
-const EdgeInsetsGeometry cardHorizontalPadding = EdgeInsets.only(left: 12.0);
+const EdgeInsetsGeometry cardHorizontalMargin = EdgeInsets.only(
+  left: 12.0,
+  right: 4.0,
+  bottom: 2.0,
+);
+
 const EdgeInsetsGeometry cardTextPadding = EdgeInsets.only(
   bottom: 16.0,
 );
@@ -36,28 +43,39 @@ const defaultLetterSpacing = 0.03;
 ThemeData buildTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
-    primaryColor: primaryColor,
-    scaffoldBackgroundColor: backgroundColor,
-    cardColor: cardBackgroundColor,
-    errorColor: errorColor,
-    buttonTheme: const ButtonThemeData(
-      colorScheme: _colorScheme,
-      textTheme: ButtonTextTheme.normal,
-    ),
-    cardTheme: base.cardTheme.copyWith(
-      color: cardBackgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(defaultBorderRadius),
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: backgroundColor,
+      cardColor: cardBackgroundColor,
+      errorColor: errorColor,
+      buttonTheme: const ButtonThemeData(
+        colorScheme: _colorScheme,
+        textTheme: ButtonTextTheme.normal,
+      ),
+      cardTheme: base.cardTheme.copyWith(
+        color: cardBackgroundColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(defaultBorderRadius),
+          ),
         ),
       ),
-    ),
-    primaryIconTheme: _customIconTheme(base.iconTheme),
-    textTheme: _buildTextTheme(base.textTheme),
-    primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
-    iconTheme: _customIconTheme(base.iconTheme),
-    colorScheme: _colorScheme,
-    tabBarTheme: _customTabBarTheme(base.tabBarTheme),
+      primaryIconTheme: _customIconTheme(base.iconTheme),
+      textTheme: _buildTextTheme(base.textTheme),
+      primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
+      iconTheme: _customIconTheme(base.iconTheme),
+      colorScheme: _colorScheme,
+      tabBarTheme: _customTabBarTheme(base.tabBarTheme),
+      bottomNavigationBarTheme:
+          _customBottomNavigationBarTheme(base.bottomNavigationBarTheme));
+}
+
+BottomNavigationBarThemeData _customBottomNavigationBarTheme(
+    BottomNavigationBarThemeData base) {
+  return base.copyWith(
+    backgroundColor: primaryColor,
+    selectedItemColor: textColor,
+    unselectedItemColor: textColorOpacity60,
+    unselectedLabelStyle: const TextStyle(fontSize: 14.0),
   );
 }
 
