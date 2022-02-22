@@ -20,8 +20,7 @@ class TitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // TODO: Give padding from styles
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+      padding: titlePadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
