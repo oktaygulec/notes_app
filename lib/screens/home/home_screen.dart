@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/styles.dart';
 import '/widgets/components/appbars/logo_app_bar.dart';
 import '/widgets/contents/home/notes_content.dart';
 import '/widgets/contents/home/home_content.dart';
@@ -34,22 +33,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: _currentIndex == 0
-          ? const LogoAppBar()
-          : LogoAppBar(
+      appBar: _currentIndex == 1
+          ? LogoAppBar(
               hasTab: true,
               tabController: _tabController,
-            ),
+            )
+          : const LogoAppBar(),
       body: _currentIndex == 0
           ? const HomeContent()
           : _currentIndex == 1
               ? NotesContent(tabController: _tabController)
               : Container(),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: primaryColor,
-        selectedItemColor: textColor,
-        unselectedItemColor: textColorOpacity60,
-        unselectedFontSize: 14.0,
         currentIndex: _currentIndex,
         onTap: (index) => setState(() {
           _currentIndex = index;
@@ -79,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               onPressed: () {},
             )
-          : const SizedBox(),
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
