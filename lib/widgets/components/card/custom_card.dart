@@ -21,27 +21,27 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: cardType.direction == Axis.horizontal
-          ? cardHorizontalPadding
-          : cardVerticalPadding,
-      child: Card(
-        elevation: 2,
-        child: InkWell(
-          highlightColor: primaryColor,
-          splashColor: primaryVariantColor,
-          onLongPress: () {
-            final prov = Provider.of<AppBarStatus>(context, listen: false);
-            prov.changeMode(AppBarMode.onEdit);
-          },
-          onTap: () {
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (_) => NoteScreen()));
-          },
-          child: Padding(
-            padding: defaultPadding,
-            child: _cardCheck(cardType, item),
-          ),
+    return Card(
+      elevation: 2,
+      margin: cardType.direction == Axis.horizontal
+          ? cardHorizontalMargin
+          : cardVerticalMargin,
+      child: InkWell(
+        highlightColor: primaryColor,
+        splashColor: primaryVariantColor,
+        borderRadius:
+            const BorderRadius.all(Radius.circular(defaultBorderRadius)),
+        onLongPress: () {
+          final prov = Provider.of<AppBarStatus>(context, listen: false);
+          prov.changeMode(AppBarMode.onEdit);
+        },
+        onTap: () {
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (_) => NoteScreen()));
+        },
+        child: Padding(
+          padding: cardPadding,
+          child: _cardCheck(cardType, item),
         ),
       ),
     );
