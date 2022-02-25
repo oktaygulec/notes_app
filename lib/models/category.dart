@@ -10,7 +10,7 @@ class Category {
 
   Category({
     required this.title,
-    required this.notes,
+    this.notes,
     this.isPinned = false,
   });
 
@@ -33,11 +33,7 @@ class Category {
     data['title'] = title;
     data['createdTime'] = createdTime.toIso8601String();
     data['isPinned'] = isPinned;
-    if (notes != null) {
-      data['notes'] = notes;
-    } else {
-      data['notes'] = {};
-    }
+    data['notes'] = notes ?? {};
     return data;
   }
 }
