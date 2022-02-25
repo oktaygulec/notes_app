@@ -9,11 +9,13 @@ class IconText extends StatelessWidget {
   final String text;
   final TextType? textType;
   final IconPosition? iconPosition;
+  final isStretched;
 
   const IconText({
     Key? key,
     required this.text,
     required this.icon,
+    this.isStretched = false,
     this.textType,
     this.iconPosition = IconPosition.left,
   }) : super(key: key);
@@ -21,7 +23,9 @@ class IconText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: isStretched ? MainAxisSize.max : MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: iconPosition == IconPosition.left
           ? [
               Padding(
