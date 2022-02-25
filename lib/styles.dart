@@ -127,6 +127,7 @@ TextTheme _buildTextTheme(TextTheme base) {
       fontFamily: 'Rubik',
       fontWeight: FontWeight.w500,
       fontSize: 18.0,
+      letterSpacing: 3,
     ),
 
     // Card Title
@@ -157,7 +158,6 @@ TextTheme _buildTextTheme(TextTheme base) {
 
     // Button
     button: theme.bodyText1?.copyWith(
-      backgroundColor: textColor,
       fontWeight: FontWeight.w700,
       fontSize: 14.0,
       color: primaryColor,
@@ -188,9 +188,9 @@ TextTheme _buildTextTheme(TextTheme base) {
 
 const ColorScheme _colorScheme = ColorScheme(
   primary: primaryColor,
-  primaryVariant: primaryVariantColor,
+  primaryContainer: primaryVariantColor,
   secondary: textColor,
-  secondaryVariant: textColor,
+  secondaryContainer: textColor,
   surface: backgroundColor,
   background: backgroundColor,
   error: errorColor,
