@@ -13,7 +13,8 @@ enum TextType {
   text,
   title,
   appBarTitle,
-  button,
+  primaryButton,
+  secondaryButton,
   subtitle,
   subtitleDate,
   cardTitleBold,
@@ -26,6 +27,7 @@ enum TextType {
   cardTextZeroPadding,
   iconSubtitle,
   countBar,
+  emptyPlaceholder
 }
 
 extension CardDirection on CardType {
@@ -50,7 +52,11 @@ extension TextTypeStyle on TextType {
         return buildTheme().textTheme.headline1;
       case TextType.appBarTitle:
         return buildTheme().textTheme.headline2;
-      case TextType.button:
+      case TextType.primaryButton:
+        return buildTheme().textTheme.button!.copyWith(
+              color: textColor,
+            );
+      case TextType.secondaryButton:
         return buildTheme().textTheme.button;
       case TextType.subtitle:
         return buildTheme().textTheme.subtitle1;
@@ -82,6 +88,12 @@ extension TextTypeStyle on TextType {
         return buildTheme().textTheme.headline6;
       case TextType.countBar:
         return buildTheme().textTheme.overline;
+      case TextType.emptyPlaceholder:
+        return buildTheme().textTheme.headline6!.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              color: textColorOpacity35,
+            );
       default:
         return buildTheme().textTheme.bodyText1;
     }
@@ -90,6 +102,10 @@ extension TextTypeStyle on TextType {
   EdgeInsetsGeometry get padding {
     switch (this) {
       case TextType.appBarTitle:
+        return EdgeInsets.zero;
+      case TextType.primaryButton:
+        return EdgeInsets.zero;
+      case TextType.secondaryButton:
         return EdgeInsets.zero;
       case TextType.cardSubtitle:
         return EdgeInsets.zero;
