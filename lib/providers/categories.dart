@@ -7,21 +7,35 @@ class Categories with ChangeNotifier {
   final StorageManager _storageManager =
       StorageManager(storageName: "notes", itemName: "categories");
 
-  List<Category> _items = [];
+  Map<String, Category> _items = {};
 
-  List<Category> get items {
-    return [..._items];
+  Map<String, Category> get items {
+    return Map<String, Category>.from(_items);
   }
 
-  Future<List<Category>> getCategories() async {
-    _items = await _storageManager.getItems() as List<Category>;
+  List<Category> get pinnedItems =>
+      _items.values.where((e) => e.isPinned).toList();
+
+  Future<void> getCategories() async {
+    _items = await _storageManager.getItems() as Map<String, Category>;
     notifyListeners();
-    return _items;
   }
 
   Future<void> newCategory(Category category) async {
-    _items.add(category);
+    _items.addAll({category.id: category});
     await _storageManager.newItem(category);
+    notifyListeners();
+  }
+
+  Future<void> updateCategory(Category category) async {
+    _items[category.id] = category;
+    await _storageManager.updateItem(category);
+    notifyListeners();
+  }
+
+  Future<void> deleteCategory(Category category) async {
+    _items.removeWhere((key, value) => key == category.id);
+    await _storageManager.deleteItem(category.id);
     notifyListeners();
   }
 }
