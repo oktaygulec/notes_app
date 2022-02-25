@@ -9,7 +9,7 @@ class IconText extends StatelessWidget {
   final String text;
   final TextType? textType;
   final IconPosition? iconPosition;
-  final isStretched;
+  final bool isStretched;
 
   const IconText({
     Key? key,
