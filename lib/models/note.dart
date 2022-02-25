@@ -1,6 +1,7 @@
 class Note {
   final String id = DateTime.now().toIso8601String();
   final DateTime createdTime = DateTime.now();
+  final String categoryId;
   String title;
   String description;
   bool isPinned;
@@ -8,6 +9,7 @@ class Note {
   Note({
     required this.title,
     required this.description,
+    required this.categoryId,
     this.isPinned = false,
   });
 
@@ -24,6 +26,7 @@ class Note {
     data['description'] = description;
     data['createdTime'] = createdTime.toIso8601String();
     data['isPinned'] = isPinned;
+    data['categoryId'] = categoryId;
     return data;
   }
 }
