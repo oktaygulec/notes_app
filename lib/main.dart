@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/providers/notes.dart';
 import 'package:provider/provider.dart';
 
 import '/styles.dart';
 import '/providers/appbar_status.dart';
 import '/providers/categories.dart';
-import '/screens/home/home_screen.dart';
+import '/screens/notes/notes_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Categories(),
         ),
         ChangeNotifierProvider(
+          create: (ctx) => Notes(),
+        ),
+        ChangeNotifierProvider(
           create: (ctx) => AppBarStatus(),
         ),
       ],
@@ -28,9 +32,9 @@ class MyApp extends StatelessWidget {
         title: 'Notes App',
         theme: buildTheme(),
         debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+        home: const NotesScreen(),
         routes: {
-          HomeScreen.routeName: (ctx) => const HomeScreen(),
+          NotesScreen.routeName: (ctx) => const NotesScreen(),
         },
       ),
     );
