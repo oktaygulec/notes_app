@@ -1,15 +1,25 @@
+import 'package:hive/hive.dart';
+
+part 'note.g.dart';
+
+@HiveType(typeId: 1)
 class Note {
-  final String id = DateTime.now().toIso8601String();
-  final DateTime createdTime = DateTime.now();
-  final String categoryId;
+  @HiveField(0)
+  final String id;
+  @HiveField(1)
+  final DateTime createdTime;
+  @HiveField(2)
   String title;
+  @HiveField(3)
   String description;
+  @HiveField(4)
   bool isPinned;
 
   Note({
+    required this.id,
+    required this.createdTime,
     required this.title,
     required this.description,
-    required this.categoryId,
     this.isPinned = false,
   });
 
@@ -26,7 +36,6 @@ class Note {
     data['description'] = description;
     data['createdTime'] = createdTime.toIso8601String();
     data['isPinned'] = isPinned;
-    data['categoryId'] = categoryId;
     return data;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/widgets/components/icon_text.dart';
+
 import '/enums.dart';
 import '/widgets/components/custom_text.dart';
+import '/widgets/components/icon_text.dart';
 
 class EmptyPlaceholder extends StatelessWidget {
   final String text;
@@ -40,12 +41,15 @@ class EmptyPlaceholder extends StatelessWidget {
             height: 16,
           ),
           ElevatedButton(
-            child: IconText(
-              icon: const Icon(Icons.add),
-              text: buttonText.toUpperCase(),
-              textType: TextType.primaryButton,
-              iconPosition: IconPosition.left,
-              isStretched: false,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: IconText(
+                icon: const Icon(Icons.add),
+                text: buttonText.toUpperCase(),
+                textType: TextType.secondaryButton,
+                iconPosition: IconPosition.left,
+                isStretched: false,
+              ),
             ),
             onPressed: buttonOnPress,
           ),

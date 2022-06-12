@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/screens/notes/category_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '/enums.dart';
-import '/providers/appbar_status.dart';
 import '/styles.dart';
+import '/models/note.dart';
+import '/providers/categories.dart';
+import '/providers/appbar_status.dart';
+import '/widgets/components/custom_text.dart';
+import '/screens/notes/note_details_screen.dart';
 
 class OnEditAppBar extends StatefulWidget {
   final bool hasTab;
@@ -54,6 +59,7 @@ class _OnEditAppBarState extends State<OnEditAppBar>
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<AppBarStatus>(context);
+    final cat = Provider.of<Categories>(context, listen: false);
 
     if (prov.mode == AppBarMode.normal) {
       _controller.reverse();
@@ -81,7 +87,7 @@ class _OnEditAppBarState extends State<OnEditAppBar>
                   : null,
               leading: IconButton(
                 splashRadius: 16,
-                icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                icon: const Icon(Icons.close),
                 onPressed: () {
                   prov.changeMode(AppBarMode.normal);
                 },
@@ -89,22 +95,68 @@ class _OnEditAppBarState extends State<OnEditAppBar>
               actions: [
                 IconButton(
                   splashRadius: 16,
-                  icon: const Icon(Icons.push_pin),
-                  onPressed: () {},
+                  icon: prov.item.isPinned
+                      ? const Icon(Icons.push_pin)
+                      : const Icon(Icons.push_pin_outlined),
+                  onPressed: () async {
+                    prov.item.runtimeType == Note
+                        ? await cat.pinNoteSwitch(prov.item)
+                        : await cat.pinCategorySwitch(prov.item);
+                    prov.changeMode(AppBarMode.normal);
+                    final pinnedText = prov.item.isPinned
+                        ? "${prov.item.title} is pinned!"
+                        : "${prov.item.title} is unpinned!";
+                    _showSnackbar(context, pinnedText);
+                  },
                 ),
                 IconButton(
                   splashRadius: 16,
                   icon: const Icon(Icons.delete),
-                  onPressed: () {},
+                  onPressed: () async {
+                    prov.item.runtimeType == Note
+                        ? await cat.deleteNote(prov.item)
+                        : await cat.deleteCategory(prov.item);
+                    prov.changeMode(AppBarMode.normal);
+                    _showSnackbar(context, "${prov.item.title} is removed!");
+                  },
                 ),
                 IconButton(
                   splashRadius: 16,
                   icon: const Icon(Icons.edit),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (prov.item.runtimeType == Note) {
+                      Navigator.of(context).pushNamed(
+                        NoteDetailsScreen.routeName,
+                        arguments: prov.item,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => const CategoryDialog(
+                          actionType: ActionType.edit,
+                        ),
+                      );
+                    }
+                    prov.changeMode(AppBarMode.normal);
+                  },
                 ),
               ],
             ),
           )
         : const SizedBox();
   }
+}
+
+_showSnackbar(context, text) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: CustomText(
+        text,
+        textType: TextType.secondaryButton,
+        alignment: TextAlign.center,
+      ),
+      backgroundColor: primaryColor,
+    ),
+  );
 }

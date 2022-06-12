@@ -13,8 +13,7 @@ const Color cardBackgroundColor = Colors.white;
 const double defaultBorderRadius = 8.0;
 const double countBarBorderRadius = 12.0;
 
-const EdgeInsetsGeometry defaultPadding = EdgeInsets.all(12.0);
-const EdgeInsetsGeometry titlePadding =
+const EdgeInsetsGeometry defaultPadding =
     EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0);
 const EdgeInsetsGeometry checkboxItemPadding = EdgeInsets.symmetric(
   vertical: 5.0,
@@ -43,30 +42,43 @@ const defaultLetterSpacing = 0.03;
 ThemeData buildTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
-      primaryColor: primaryColor,
-      scaffoldBackgroundColor: backgroundColor,
-      cardColor: cardBackgroundColor,
-      errorColor: errorColor,
-      buttonTheme: const ButtonThemeData(
-        colorScheme: _colorScheme,
-        textTheme: ButtonTextTheme.normal,
-      ),
-      cardTheme: base.cardTheme.copyWith(
-        color: cardBackgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(defaultBorderRadius),
-          ),
+    primaryColor: primaryColor,
+    scaffoldBackgroundColor: backgroundColor,
+    cardColor: cardBackgroundColor,
+    errorColor: errorColor,
+    buttonTheme: const ButtonThemeData(
+      colorScheme: _colorScheme,
+      textTheme: ButtonTextTheme.normal,
+    ),
+    cardTheme: base.cardTheme.copyWith(
+      color: cardBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(defaultBorderRadius),
         ),
       ),
-      primaryIconTheme: _customIconTheme(base.iconTheme),
-      textTheme: _buildTextTheme(base.textTheme),
-      primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
-      iconTheme: _customIconTheme(base.iconTheme),
-      colorScheme: _colorScheme,
-      tabBarTheme: _customTabBarTheme(base.tabBarTheme),
-      bottomNavigationBarTheme:
-          _customBottomNavigationBarTheme(base.bottomNavigationBarTheme));
+    ),
+    primaryIconTheme: _customIconTheme(base.iconTheme),
+    textTheme: _buildTextTheme(base.textTheme),
+    primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
+    iconTheme: _customIconTheme(base.iconTheme),
+    colorScheme: _colorScheme,
+    tabBarTheme: _customTabBarTheme(base.tabBarTheme),
+    bottomNavigationBarTheme:
+        _customBottomNavigationBarTheme(base.bottomNavigationBarTheme),
+    textSelectionTheme:
+        base.textSelectionTheme.copyWith(cursorColor: textColor),
+    inputDecorationTheme: base.inputDecorationTheme.copyWith(
+      labelStyle: const TextStyle(color: textColor),
+      focusedBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          width: 1,
+          color: textColor,
+        ),
+      ),
+    ),
+    dialogBackgroundColor: primaryColor,
+  );
 }
 
 BottomNavigationBarThemeData _customBottomNavigationBarTheme(

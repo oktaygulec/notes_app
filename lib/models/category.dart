@@ -1,17 +1,28 @@
+import 'package:hive/hive.dart';
+
 import '/models/note.dart';
 
+part 'category.g.dart';
+
+@HiveType(typeId: 2)
 class Category {
-  // add late if it's not working
-  final String id = DateTime.now().toIso8601String();
-  final DateTime createdTime = DateTime.now();
+  @HiveField(0)
+  final String id;
+  @HiveField(1)
+  final DateTime createdTime;
+  @HiveField(2)
   String title;
+  @HiveField(3)
   bool isPinned;
+  @HiveField(4)
   Map<String, Note>? notes;
 
   Category({
+    required this.id,
+    required this.createdTime,
     required this.title,
-    this.notes,
     this.isPinned = false,
+    this.notes,
   });
 
   // Category.fromJson(Map json) {
@@ -33,7 +44,17 @@ class Category {
     data['title'] = title;
     data['createdTime'] = createdTime.toIso8601String();
     data['isPinned'] = isPinned;
-    data['notes'] = notes ?? {};
+    // data['notes'] = notes ?? {};
+    Map<String, Map<String, dynamic>> _notes = {};
+
+    if (notes != null) {
+      for (var item in notes!.values) {
+        _notes.addAll({item.id: item.toJson()});
+      }
+    }
+
+    data['notes'] = _notes;
+
     return data;
   }
 }

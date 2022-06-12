@@ -56,6 +56,7 @@ class ListWithTitle extends StatelessWidget {
         break;
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _icon != null
             ? TitleBar(

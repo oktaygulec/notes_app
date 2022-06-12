@@ -1,13 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
+import 'package:notesapp/screens/notes/category_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import '/enums.dart';
+import '/styles.dart';
 import '/models/category.dart';
 import '/models/note.dart';
-import '/widgets/components/custom_text.dart';
-import '/styles.dart';
 import '/providers/appbar_status.dart';
+import '/widgets/components/custom_text.dart';
+import '/screens/notes/note_details_screen.dart';
 
 class CustomCard extends StatelessWidget {
   final dynamic item;
@@ -34,10 +39,14 @@ class CustomCard extends StatelessWidget {
         onLongPress: () {
           final prov = Provider.of<AppBarStatus>(context, listen: false);
           prov.changeMode(AppBarMode.onEdit);
+          prov.setItem(item);
         },
         onTap: () {
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (_) => NoteScreen()));
+          Navigator.of(context).pushNamed(
+              item.runtimeType == Note
+                  ? NoteDetailsScreen.routeName
+                  : CategoryDetailsScreen.routeName,
+              arguments: item);
         },
         child: Padding(
           padding: cardPadding,
@@ -74,7 +83,9 @@ class CustomCard extends StatelessWidget {
               textType: TextType.cardTitleBold,
             ),
             CustomText(
-              item.description,
+              Document.fromJson(
+                json.decode(item.description),
+              ).toPlainText(),
               textType: TextType.cardTitleBold,
             ),
             Row(
@@ -95,6 +106,10 @@ class CustomCard extends StatelessWidget {
   }
 
   Widget _smallCard(Category item) {
+    var length = 0;
+    if (item.notes != null) {
+      length = item.notes!.length;
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +130,7 @@ class CustomCard extends StatelessWidget {
               textType: TextType.cardTextZeroPadding,
             ),
             CustomText(
-              item.notes!.length.toString(),
+              length.toString(),
               textType: TextType.cardTotalText,
             ),
           ],
@@ -134,7 +149,9 @@ class CustomCard extends StatelessWidget {
           textType: TextType.cardTitleBold,
         ),
         CustomText(
-          item.description,
+          Document.fromJson(
+            jsonDecode(item.description),
+          ).toPlainText(),
           textType: TextType.cardText,
           maxLines: 4,
         ),
@@ -158,6 +175,10 @@ class CustomCard extends StatelessWidget {
   }
 
   Widget _longCard(Category item) {
+    var length = 0;
+    if (item.notes != null) {
+      length = item.notes!.length;
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -167,7 +188,7 @@ class CustomCard extends StatelessWidget {
           textType: TextType.cardTitleBoldZeroPadding,
         ),
         CustomText(
-          "${item.notes!.length.toString()} Notes",
+          "${length.toString()} Notes",
           textType: TextType.cardTextZeroPadding,
         ),
       ],

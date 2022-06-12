@@ -7,7 +7,7 @@ import '/widgets/components/custom_text.dart';
 class IconText extends StatelessWidget {
   final Icon icon;
   final String text;
-  final TextType? textType;
+  final TextType textType;
   final IconPosition? iconPosition;
   final bool isStretched;
 
@@ -16,7 +16,7 @@ class IconText extends StatelessWidget {
     required this.text,
     required this.icon,
     this.isStretched = false,
-    this.textType,
+    this.textType = TextType.text,
     this.iconPosition = IconPosition.left,
   }) : super(key: key);
 

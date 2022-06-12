@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '/enums.dart';
 import '/styles.dart';
-import '/widgets/components/custom_text.dart';
+import '/models/category.dart';
 import '/widgets/components/appbars/on_edit_app_bar.dart';
+import '/screens/notes/category_dialog.dart';
 
-class LogoAppBar extends StatefulWidget with PreferredSizeWidget {
-  final bool hasTab;
-  final TabController? tabController;
+class PushedCategoryAppBar extends StatefulWidget with PreferredSizeWidget {
+  final Category category;
   final Function(String)? onSearch;
 
-  const LogoAppBar({
-    this.hasTab = false,
-    this.tabController,
-    this.onSearch,
+  PushedCategoryAppBar({
     Key? key,
+    required this.category,
+    this.onSearch,
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size(double.infinity,
-      hasTab ? kToolbarHeight + kTextTabBarHeight : kToolbarHeight);
+  Size get preferredSize => const Size(double.infinity, kToolbarHeight);
 
   @override
-  State<LogoAppBar> createState() => _LogoAppBarState();
+  State<PushedCategoryAppBar> createState() => _PushedCategoryAppBarState();
 }
 
-class _LogoAppBarState extends State<LogoAppBar> {
+class _PushedCategoryAppBarState extends State<PushedCategoryAppBar> {
   bool _isSearching = false;
 
   @override
@@ -34,21 +31,19 @@ class _LogoAppBarState extends State<LogoAppBar> {
     return Stack(
       children: [
         AppBar(
-          bottom: widget.hasTab
-              ? TabBar(
-                  controller: widget.tabController,
-                  tabs: const [
-                    Tab(
-                      text: "NOTES",
-                    ),
-                    Tab(
-                      text: "CATEGORIES",
-                    ),
-                  ],
-                )
-              : null,
-          title: _isSearching
-              ? TextField(
+          automaticallyImplyLeading: false,
+          leading: _isSearching
+              ? null
+              : IconButton(
+                  splashRadius: 16,
+                  icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+          title: !_isSearching
+              ? null
+              : TextField(
                   onChanged: widget.onSearch,
                   decoration: InputDecoration(
                     filled: true,
@@ -73,21 +68,6 @@ class _LogoAppBarState extends State<LogoAppBar> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                )
-              : Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/Logo.svg",
-                      width: 24,
-                    ),
-                    SizedBox(
-                      width: iconTextPadding.horizontal,
-                    ),
-                    const CustomText(
-                      "NOTES",
-                      textType: TextType.appBarLogoTitle,
-                    ),
-                  ],
                 ),
           actions: _isSearching
               ? [
@@ -104,18 +84,27 @@ class _LogoAppBarState extends State<LogoAppBar> {
                   IconButton(
                     splashRadius: 16,
                     icon: const Icon(Icons.search),
-                    onPressed: () => setState(() => _isSearching = true),
+                    onPressed: () => setState(() {
+                      _isSearching = true;
+                    }),
                   ),
                   IconButton(
                     splashRadius: 16,
-                    icon: const Icon(Icons.more_vert),
-                    onPressed: () {},
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => CategoryDialog(
+                          actionType: ActionType.edit,
+                          category: widget.category,
+                        ),
+                      );
+                    },
                   ),
                 ],
         ),
-        OnEditAppBar(
-          hasTab: widget.hasTab,
-          tabController: widget.tabController,
+        const OnEditAppBar(
+          hasTab: false,
         ),
       ],
     );
